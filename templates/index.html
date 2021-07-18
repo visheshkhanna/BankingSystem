@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+      <meta name="author" content="Vishesh Khanna">
+      <meta name="description" content="Basic Banking System"/>
+      <meta name="keywords" content="HTML, CSS, JavaScript, Bootstrap, Flask, Python, MySQL, Vishesh Khanna">
+
+      <title>Dashboard - Bank Of India</title>
+
+      <link rel="icon" href="../static/assets/img/favicon/favicon.ico" />
+      <link rel="stylesheet"href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css')}}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+      <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/fontawesome-all.min.css')}}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/font-awesome.min.css')}}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/fontawesome5-overrides.min.css')}}">
+  </head>
+
+  <body id="page-top">
+    {% block content %}
+      <div class="container">
+        {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+      </div>
+    {% endblock %}
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{url_for('index')}}">
+                    <div class="sidebar-brand-icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>Bank of India</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" href="{{url_for('index')}}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('transhis')}}"><i class="fas fa-table"></i>&nbsp;Transaction History</a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/return-files"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a>
+                    </div>
+                    <div class="row">
+                      <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <table class="table my-0" id="dataTable">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Balance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for row in data %}
+                            <form method="POST" action="{{ url_for('make') }}">
+                              <tr>
+                                <td>{{row.id}}</td>
+                                <td>{{row.name}}</td>
+                                <td>{{row.email}}</td>
+                                <td>{{row.curr_bal}}</td>
+                                <td>
+                                  <input type="hidden" name="cid" value="{{row.id}}"/>
+                                  <input type="hidden" name="cname" value="{{row.name}}"/>
+                                  <input type="hidden" name="cemail" value="{{row.email}}"/>
+                                  <input type="hidden" name="cbal" value="{{row.curr_bal}}"/>
+                                  <input type="submit" value="Transfer Money" class="btnAddAction btn btn-primary btn-sm d-none d-sm-inline-block"/>
+                                </td>
+                              </tr>
+                            </form>
+                            {% endfor %}
+                          </tbody>
+                    <!-- <tfoot>
+                            <tr>
+                              <td><strong>Id</strong></td>
+                              <td><strong>Name</strong></td>
+                              <td><strong>Email</strong></td>
+                              <td><strong>Balance</strong></td>
+                            </tr>
+                          </tfoot> -->
+                        </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="bg-white sticky-footer">
+              <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Bank Of India 2021</span></div>
+              </div>
+            </footer>
+            <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div>
+    </div>
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/chart.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/bs-init.js')}}">></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="{{ url_for('static',filename='assets/js/theme.js')}}">></script>
+  </body>
+
+</html>
