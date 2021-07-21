@@ -101,7 +101,7 @@ def transhis():
 
 @app.route('/return-files')
 def return_files():
-    con=connect(user="root",password="",host="127.0.0.1",database="bank")
+    con=connect(user="Z8KrJ1Wrzh",password="Z8KrJ1Wrzh",host="remotemysql.com",database="Z8KrJ1Wrzh")
     df=sql.read_sql('select * from customers',con)
     df.to_excel('download/Report.xls')
     file_path = 'download/Report.xls'
