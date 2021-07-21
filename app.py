@@ -11,7 +11,7 @@ import pandas.io.sql as sql
 from flask import Flask, flash, send_file, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from config import *
 import time
 import datetime
 import MySQLdb.cursors
@@ -19,12 +19,12 @@ import re
 
 app = Flask(__name__)
 
-app.secret_key = 'TIGER'
+app.secret_key = secretkey
 
-app.config['MYSQL_HOST'] = 'remotemysql.com'
-app.config['MYSQL_USER'] = 'Z8KrJ1Wrzh'
-app.config['MYSQL_PASSWORD'] = 'b7hEQKaDoH'
-app.config['MYSQL_DB'] = 'Z8KrJ1Wrzh'
+app.config['MYSQL_HOST'] = MYSQL_HOST
+app.config['MYSQL_USER'] = MYSQL_USER
+app.config['MYSQL_PASSWORD'] = MYSQL_PASSWORD
+app.config['MYSQL_DB'] = MYSQL_DB
 
 mysql = MySQL(app)
 ts = time.time()
@@ -101,7 +101,7 @@ def transhis():
 
 @app.route('/return-files')
 def return_files():
-    con=connect(user="Z8KrJ1Wrzh",password="b7hEQKaDoH",host="remotemysql.com",database="Z8KrJ1Wrzh")
+    con=connect(user=MYSQL_USER, password=MYSQL_PASSWORD, host=MYSQL_HOST, database=MYSQL_DB)
     df=sql.read_sql('select * from customers',con)
     df.to_excel('download/Report.xls')
     file_path = 'download/Report.xls'
